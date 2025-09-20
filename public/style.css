@@ -86,7 +86,6 @@ canvas:hover {
 .status {
     margin-top: 10px;
     font-size: 14px;
-    font-weight: bold;
 }
 
 /* =======================
@@ -108,13 +107,17 @@ canvas:hover {
 }
 
 /* Specific colors */
-.control-btn.volume {
+.volume {
     background: #27ae60;
 } /* green */
-.control-btn.volume.muted {
+.off {
     background: #c0392b;
 } /* muted red */
 /* States */
+
+.muted {
+    background: #141313ff;
+}
 
 .control-btn:hover {
     transform: translateY(-2px);
