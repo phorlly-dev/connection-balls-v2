@@ -45,7 +45,10 @@ const Footer = () => {
                 </button>
             </section>
 
-            <div className="status" style={{ color: messages.color }}>
+            <div
+                className="status fw-semibold"
+                style={{ color: messages.color }}
+            >
                 {messages.text}
             </div>
         </footer>

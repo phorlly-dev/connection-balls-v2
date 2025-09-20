@@ -37,16 +37,16 @@ const Header = ({ player, onLogout }) => {
                         </span>
                     </div>
 
-                    <div className="h6 mb-0">
-                        <span className="text-muted fw-bold">Score:</span>
-                        <span className="fw-bold text-success fs-5 ms-1">
+                    <div className="h6 fw-semibold mb-0">
+                        <span className="text-muted">Score:</span>
+                        <span className="fw-semibold text-success fs-5 ms-1">
                             {formatNumber(score)}
                         </span>
                     </div>
 
-                    <div className="h6 mb-0 fw-bold text-muted">
+                    <div className="h6 mb-0 text-muted">
                         Level:
-                        <span className="fw-bold fs-5 ms-1 text-primary">
+                        <span className="fw-semibold fs-5 ms-1 text-primary">
                             {level}
                         </span>
                     </div>
@@ -59,8 +59,8 @@ const Header = ({ player, onLogout }) => {
                         onClick={toggle}
                         title="Toggle sound on/off"
                         aria-label="Toggle sound"
-                        className={`control-btn volume rounded-circle ${
-                            muted ? "muted" : "btn-success"
+                        className={`control-btn rounded-circle ${
+                            muted ? "muted" : "volume"
                         }`}
                     >
                         <i
@@ -76,7 +76,7 @@ const Header = ({ player, onLogout }) => {
                         onClick={onLogout}
                         title="Exit from game"
                         aria-label="Exit"
-                        className="control-btn btn-sm volume muted rounded-circle"
+                        className="control-btn btn-sm off rounded-circle"
                     >
                         <i className="fa fa-power-off"></i>
                     </button>

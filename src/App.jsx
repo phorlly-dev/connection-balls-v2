@@ -11,14 +11,14 @@ const App = () => {
     // Load from Firebase when player logs in
     const handleAuth = async (name) => {
         setPlayer(name);
-        localStorage.setItem("my-name", name);
+        localStorage.setItem("player", name);
         setLoading(false);
         setShowBanner(true);
     };
 
     // Load game data when player logs in
     React.useEffect(() => {
-        const savedName = localStorage.getItem("my-name");
+        const savedName = localStorage.getItem("player");
         if (savedName) {
             setPlayer(savedName);
         }
@@ -27,7 +27,7 @@ const App = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("my-name");
+        localStorage.removeItem("player");
         setPlayer(null);
     };
 

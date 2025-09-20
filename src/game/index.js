@@ -9,12 +9,12 @@ import { bg, height, width } from "./consts";
 
 const config = {
     type: Phaser.AUTO,
-    width: width,
-    height: height,
     backgroundColor: bg,
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: width,
+        height: height,
     },
     physics: {
         default: "arcade",

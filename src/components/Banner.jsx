@@ -19,7 +19,7 @@ const Banner = ({ onClose }) => {
                 {/* Close Button */}
                 <button
                     type="button"
-                    className="control-btn volume muted position-absolute top-0 end-0 m-2 border rounded-circle"
+                    className="control-btn off position-absolute top-0 end-0 m-2 border rounded-circle"
                     aria-label="Close"
                     onClick={handleClose}
                 >

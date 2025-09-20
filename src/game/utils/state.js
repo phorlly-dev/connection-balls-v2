@@ -9,7 +9,7 @@ const States = {
         emitEvent("level", level);
     },
     setPoints(score) {
-        emitEvent("score", score);
+        emitEvent("score", score * 5);
     },
     setSubtitle(counter) {
         emitEvent("color", counter);
@@ -77,9 +77,10 @@ const States = {
                 scene.sys.game.config.height / 2,
                 `🎉 Level ${level} Completed!`,
                 {
-                    fontSize: "28px",
+                    fontSize: "24px",
                     fontStyle: "bold",
-                    color: "#27ae60",
+                    color: "#3fb976ff",
+                    stroke: "#ffffff",
                 }
             )
             .setOrigin(0.5);

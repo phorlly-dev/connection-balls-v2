@@ -15,7 +15,11 @@ const Content = ({ player, onLogout }) => {
 
             {/* GAME BOARD */}
             <main className="phaser-wrapper">
-                <PhaserGame ref={phaserRef} player={player} />
+                <PhaserGame
+                    ref={phaserRef}
+                    player={player}
+                    style={{ maxWidth: "400px", width: "100%" }}
+                />
             </main>
 
             {/* FOOTER */}
