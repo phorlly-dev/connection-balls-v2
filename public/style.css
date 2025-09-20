@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #303653ff 0%, #352349ff 100%);
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    text-align: center;
+    width: 95vw; /* scale to viewport width */
+    max-width: 480px; /* safe upper bound for large screens */
+    height: auto; /* adjust to content */
+    margin: auto;
+    padding: 20px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    /* box-shadow: 0 15px 35px rgba(185, 163, 163, 1); */
+    background: linear-gradient(135deg, #c5b2b2ff 0%, #bdc1c9ff 100%);
+}
+
+.header {
+    background: linear-gradient(135deg, #f7e8e8ff 0%, #f1f3f6 100%);
+    border-radius: 12px;
+    padding: 10px 15px;
+    margin: auto;
+    box-shadow: 0 15px 35px rgba(185, 163, 163, 1);
+}
+
+.phaser-wrapper {
+    border-radius: 20px;
+    border: 4px solid #b68d8dff;
+    overflow: hidden; /* 👈 ensures canvas respects rounding */
+    box-shadow: 0 15px 35px rgba(187, 170, 170, 1);
+    background: #f8f9fa;
+    margin: auto;
+    max-width: 480px;
+}
+
+/* This div will hold the Phaser game canvas */
+canvas {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    cursor: default;
+}
+
+canvas:hover {
+    cursor: default;
+}
+
+.controls {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+}
+
+.reset-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+}
+
+.hint-btn {
+    background: linear-gradient(135deg, #feca57 0%, #ff9ff3 100%);
+}
+
+.game-footer {
+    margin: auto;
+    padding: 12px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #fafafa 0%, #f1f3f6 100%);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+}
+
+.controls {
+    margin: 10px auto;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.status {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* =======================
+   BUTTONS
+======================= */
+.control-btn {
+    width: 36px;
+    height: 36px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Specific colors */
+.control-btn.volume {
+    background: #27ae60;
+} /* green */
+.control-btn.volume.muted {
+    background: #c0392b;
+} /* muted red */
+/* States */
+
+.control-btn:hover {
+    transform: translateY(-2px);
+}
+
+.control-btn:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 600px) {
+    .game-footer {
+        padding: 10px;
+    }
+    .controls {
+        gap: 10px;
+    }
+
+    .game-footer {
+        padding: 10px;
+    }
+    .status {
+        font-size: 12px;
+    }
+}
