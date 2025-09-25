@@ -1,4 +1,4 @@
-import { emitEvent, onEvent } from "../../hooks/remote";
+import { emitEvent, emitEvents, onEvent } from "../../hooks/remote";
 import { audio, hintText, start, status } from "../consts";
 import { pointerDown, pointerMove, pointerUp } from "../utils/controller";
 import { playSound } from "../utils/helper";
@@ -15,37 +15,23 @@ class GameEngine extends Phaser.Scene {
         this.currentPath = null;
         this.isDragging = false;
         this.ballRadius = 25;
-        this.currentLevel = 1;
-        this.currentScore = 0;
-
+        this.level = 1;
+        this.score = 0;
+        this.player = null;
         this.lineGraphics = null;
-
-        this.onBtn = null;
-        this.offBtn = null;
-        this.resetBtn = null;
-        this.hintBtn = null;
     }
 
     init() {
-        // Reset state each time scene starts
-        this.balls = [];
-        this.paths = [];
-        this.currentPath = null;
-        this.isDragging = false;
-        this.ballRadius = 25;
-        this.currentLevel = 1;
-        this.currentScore = 0;
+        emitEvent("current-scene-ready", this);
+        onEvent("firebase-data-loaded", (data) => this.resetGame(data));
     }
 
     create() {
-        // 🔹 Lifecycle hook
-        emitEvent("current-scene-ready", this);
-
         // --- Graphics object for lines ---
         this.lineGraphics = this.add.graphics();
 
         // --- Setup game level ---
-        initLevel(this, this.currentLevel);
+        initLevel(this, this.level);
         this.control();
 
         // --- Audio ---
@@ -57,13 +43,21 @@ class GameEngine extends Phaser.Scene {
         this.input.on("pointerup", this.handlePointerUp, this);
     }
 
+    resetGame(data = {}) {
+        this.player = data.player;
+        this.level = data.level || 1;
+        console.log(this.level);
+
+        this.score = data.score || 0;
+    }
+
     control() {
         onEvent("sound", (mute) => {
             this.sound.mute = mute;
             this.sound.play(audio.key.close);
         });
         onEvent("reset", () => {
-            initLevel(this, this.currentLevel);
+            initLevel(this, this.level);
             playSound(this, audio.key.click);
         });
         onEvent("hint", () => {
@@ -89,6 +83,18 @@ class GameEngine extends Phaser.Scene {
         this.input.setDefaultCursor("default");
 
         pointerUp(this, pointer);
+    }
+
+    update() {
+        //Auto sync UI
+        this.syncUI();
+    }
+
+    syncUI() {
+        emitEvents({
+            events: ["level", "score"],
+            args: [this.level, this.score],
+        });
     }
 
     // --- Cleanup when scene stops ---

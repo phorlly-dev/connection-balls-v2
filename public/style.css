@@ -92,8 +92,8 @@ canvas:hover {
    BUTTONS
 ======================= */
 .control-btn {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;

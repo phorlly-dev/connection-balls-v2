@@ -19,12 +19,6 @@ const Header = ({ player, onLogout }) => {
         return () => offEvents({ events, callbacks });
     }, [score, level]);
 
-    const toggle = () => {
-        const newMute = !muted;
-        setMuted(newMute);
-        emitEvent("sound", newMute);
-    };
-
     return (
         <header className="header container mb-1">
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
@@ -38,15 +32,15 @@ const Header = ({ player, onLogout }) => {
                     </div>
 
                     <div className="h6 fw-semibold mb-0">
-                        <span className="text-muted">Score:</span>
-                        <span className="fw-semibold text-success fs-5 ms-1">
+                        Score:
+                        <span className="fw-bold text-success ms-1">
                             {formatNumber(score)}
                         </span>
                     </div>
 
                     <div className="h6 mb-0 text-muted">
                         Level:
-                        <span className="fw-semibold fs-5 ms-1 text-primary">
+                        <span className="fw-bold ms-1 text-primary">
                             {level}
                         </span>
                     </div>
@@ -56,10 +50,14 @@ const Header = ({ player, onLogout }) => {
                 <section className="d-flex align-items-center gap-3">
                     {/* Sound toggle button */}
                     <button
-                        onClick={toggle}
+                        onClick={() => {
+                            const newMute = !muted;
+                            setMuted(newMute);
+                            emitEvent("sound", newMute);
+                        }}
                         title="Toggle sound on/off"
                         aria-label="Toggle sound"
-                        className={`control-btn rounded-circle ${
+                        className={`control-btn btn-sm rounded-circle ${
                             muted ? "muted" : "volume"
                         }`}
                     >

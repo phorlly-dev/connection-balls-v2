@@ -3,9 +3,9 @@ const Instances = {
         width: 400,
         height: 400,
         bg: "#f8f9fa",
-        boot: "boot",
-        preload: "preload",
-        start: "start",
+        boot: "game-boot",
+        preload: "game-preload",
+        start: "game-start",
     },
     text: {
         status: "Draw flexible lines to connect same colors!",

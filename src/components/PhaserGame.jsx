@@ -1,8 +1,9 @@
 import * as React from "react";
-import { offEvent, onEvent } from "../hooks/remote";
+import { emitEvent, offEvent, onEvent } from "../hooks/remote";
 import StartGame from "../game";
+import { loadData } from "../hooks/storage";
 
-const PhaserGame = React.forwardRef(({ player }, ref) => {
+const PhaserGame = React.forwardRef(({ player, props }, ref) => {
     const game = React.useRef();
 
     // Create the game inside a useLayoutEffect hook to avoid the game being created outside the DOM
@@ -24,16 +25,28 @@ const PhaserGame = React.forwardRef(({ player }, ref) => {
     }, [ref]);
 
     React.useEffect(() => {
-        const handleSceneReady = (scene) => {
-            if (ref) ref.current.scene = scene;
-            scene.player = player;
+        const handleSceneReady = async (scene) => {
+            if (ref && ref.current && player) {
+                ref.current.scene = scene;
+
+                if (player) {
+                    const value = await loadData(player);
+
+                    // Fire event to Phaser with Firebase data
+                    emitEvent("firebase-data-loaded", {
+                        player,
+                        score: value?.score || 0,
+                        level: value?.level || 1,
+                    });
+                }
+            }
         };
 
         onEvent("current-scene-ready", handleSceneReady);
         return () => offEvent("current-scene-ready", handleSceneReady);
     }, [player, ref]);
 
-    return <div id="game-container"></div>;
+    return <div id="game-container" {...props}></div>;
 });
 
 export default PhaserGame;

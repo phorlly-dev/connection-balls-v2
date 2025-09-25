@@ -1,5 +1,6 @@
 import * as React from "react";
 import Auth from "./components/Auth";
+import { createPlayer, loadData } from "./hooks/storage";
 
 const Content = React.lazy(() => import("./components/Content"));
 const Banner = React.lazy(() => import("./components/Banner"));
@@ -8,37 +9,58 @@ const App = () => {
     const [loading, setLoading] = React.useState(true);
     const [player, setPlayer] = React.useState(null);
 
-    // Load from Firebase when player logs in
-    const handleAuth = async (name) => {
-        setPlayer(name);
-        localStorage.setItem("player", name);
-        setLoading(false);
-        setShowBanner(true);
-    };
-
     // Load game data when player logs in
     React.useEffect(() => {
         const savedName = localStorage.getItem("player");
         if (savedName) {
             setPlayer(savedName);
         }
-        setLoading(false);
+        setLoading(true);
         setShowBanner(true);
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem("player");
-        setPlayer(null);
-    };
-
-    if (!player) return <Auth onAuth={handleAuth} />;
-    else if (showBanner) return <Banner onClose={() => setShowBanner(false)} />;
-    else
+    if (!player) {
+        return (
+            <Auth
+                onAuth={async (name) => {
+                    setPlayer(name);
+                    localStorage.setItem("player", name);
+                    // Load from Firebase
+                    const saved = await loadData(name);
+                    if (!saved) {
+                        // new player → create with defaults
+                        const defaults = { level: 1, score: 0 };
+                        await createPlayer(name, defaults);
+                    }
+                    setLoading(true);
+                    setShowBanner(true);
+                }}
+            />
+        );
+    } else if (showBanner) {
+        return (
+            <Banner
+                onClose={() => {
+                    setShowBanner(false);
+                    setLoading(false);
+                }}
+            />
+        );
+    } else {
         return (
             <React.Suspense fallback={loading && <div> Loading... </div>}>
-                <Content player={player} onLogout={handleLogout} />
+                <Content
+                    player={player}
+                    onLogout={() => {
+                        localStorage.removeItem("player");
+                        setPlayer(null);
+                        setShowBanner(true);
+                        setLoading(true);
+                    }}
+                />
             </React.Suspense>
         );
+    }
 };
 
 export default App;

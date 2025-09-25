@@ -1,3 +1,4 @@
+import * as Phaser from "phaser";
 import { emitEvent } from "../../hooks/remote";
 import { colors } from "../consts";
 
@@ -41,49 +42,43 @@ const States = {
             onComplete: () => g.destroy(),
         });
 
+        const message = Phaser.Utils.Array.GetRandom([
+            "Great!",
+            "Perfect!",
+            "Awesome!",
+            "Fantastic!",
+            "Cool!",
+        ]);
+
         // --- NEW: Popup text ---
-        const text = scene.add
-            .text(
-                (startBall.x + endBall.x) / 2, // midpoint
-                (startBall.y + endBall.y) / 2,
-                "✨ Great Job!",
-                {
-                    fontSize: "20px",
-                    fontStyle: "bold",
-                    color: "#27ae60",
-                    stroke: "#ffffff",
-                    strokeThickness: 4,
-                }
-            )
-            .setOrigin(0.5);
+        const text = makeText(scene, {
+            message: `✨ ${message}`,
+            x: (startBall.x + endBall.x) / 2,
+            y: (startBall.y + endBall.y) / 2,
+            fontSize: "20px",
+            color: "#27ae60",
+        });
 
         scene.tweens.add({
             targets: text,
             y: text.y - 40, // float up
             alpha: 0,
-            duration: 1800,
+            duration: 2000,
             ease: "Cubic.easeOut",
             onComplete: () => text.destroy(),
         });
     },
-    setDelay(scene, { delay = 2000, callback }) {
+    setDelay(scene, { delay = 1600, callback }) {
         scene.time.delayedCall(delay, callback);
     },
     playLevelCompleteEffect(scene, level) {
         // Flash message
-        const text = scene.add
-            .text(
-                scene.sys.game.config.width / 2,
-                scene.sys.game.config.height / 2,
-                `🎉 Level ${level} Completed!`,
-                {
-                    fontSize: "24px",
-                    fontStyle: "bold",
-                    color: "#3fb976ff",
-                    stroke: "#ffffff",
-                }
-            )
-            .setOrigin(0.5);
+        const { width, height } = scene.scale;
+        const text = makeText(scene, {
+            message: `🎉 Level ${level} Completed!`,
+            x: width / 2,
+            y: height / 2,
+        });
 
         scene.tweens.add({
             targets: text,
@@ -119,6 +114,16 @@ const States = {
             });
         });
     },
+    makeText(scene, { message, x, y, fontSize = "24px", color = "#3fb976ff" }) {
+        return scene.add
+            .text(x, y, message, {
+                fontSize,
+                fontStyle: "bold",
+                color,
+                stroke: "#ffffff",
+            })
+            .setOrigin(0.5);
+    },
 };
 
 export const {
@@ -129,4 +134,5 @@ export const {
     playConnectEffect,
     setDelay,
     playLevelCompleteEffect,
+    makeText,
 } = States;

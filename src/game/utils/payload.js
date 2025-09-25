@@ -1,3 +1,5 @@
+import * as Phaser from "phaser";
+import { updateProgress } from "../../hooks/storage";
 import { audio, colors, status } from "../consts";
 import { drawPath, isTooEasy, playSound, setOrCutScore } from "./helper";
 import {
@@ -11,8 +13,8 @@ import {
 
 const Payloads = {
     initLevel(scene, level) {
-        scene.currentLevel = level;
-        setTitle(scene.currentLevel);
+        scene.level = level;
+        setTitle(scene.level);
 
         scene.balls.forEach((ball) => ball.destroy());
         scene.balls = [];
@@ -148,19 +150,28 @@ const Payloads = {
     },
     checkCompletion(scene, { startBall, endBall, color }) {
         if (scene.balls.every((ball) => ball.connected)) {
-            setStatus(
-                `🎉 You win!. Level ${scene.currentLevel} Complete!`,
-                "green"
-            );
+            playLevelCompleteEffect(scene, scene.level);
             playSound(scene, audio.key.win);
-            playLevelCompleteEffect(scene, scene.currentLevel);
             setOrCutScore(scene, scene.totalBalls);
-            scene.currentLevel++;
             setDelay(scene, {
-                callback: () => initLevel(scene, scene.currentLevel),
+                callback: async () => {
+                    scene.level++;
+
+                    //Save data to DB
+                    if (scene.player) {
+                        await updateProgress(scene.player, {
+                            score: scene.score,
+                            level: scene.level,
+                        });
+                    }
+
+                    scene.scene.restart({
+                        score: scene.score,
+                        level: scene.level,
+                    });
+                },
             });
         } else {
-            setStatus("✅ Great connection!", "blue");
             setOrCutScore(scene, scene.totalBalls);
             playSound(scene, audio.key.connect);
             playConnectEffect(scene, { startBall, endBall, color });

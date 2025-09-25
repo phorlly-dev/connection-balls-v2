@@ -100,12 +100,12 @@ const Helpers = {
     },
     setOrCutScore(scene, points, positive = true) {
         if (positive) {
-            scene.currentScore += points;
+            scene.score += points;
         } else {
-            scene.currentScore -= points;
+            scene.score -= points;
         }
 
-        setPoints(scene.currentScore);
+        setPoints(scene.score);
     },
 };
 

@@ -14,7 +14,7 @@ class Preload extends Phaser.Scene {
     }
 
     init() {
-        // Reset state when scene restarts
+        // Reset state when scene restarts2
         this.fakeProgress = 0;
         this.targetProgress = 0;
     }
@@ -73,9 +73,7 @@ class Preload extends Phaser.Scene {
                 ],
                 alpha: 0,
                 duration: 500,
-                onComplete: () => {
-                    this.scene.start(start);
-                },
+                onComplete: () => this.scene.start(start),
             });
         });
 

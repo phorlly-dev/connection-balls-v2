@@ -27,7 +27,17 @@ const GameEvent = {
     offEvent(event, callback = Function) {
         RemoteEvent.off(event, callback);
     },
+    removeAllEvents() {
+        RemoteEvent.removeAllListeners();
+    },
 };
 
-export const { onEvents, offEvents, emitEvents, emitEvent, onEvent, offEvent } =
-    GameEvent;
+export const {
+    onEvents,
+    offEvents,
+    emitEvents,
+    emitEvent,
+    onEvent,
+    offEvent,
+    removeAllEvents,
+} = GameEvent;

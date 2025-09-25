@@ -1,3 +1,4 @@
+import * as Phaser from "phaser";
 import { audio, status } from "../consts";
 import { cancelCurrentPath, disconnectPath, playSound } from "./helper";
 import {
