@@ -16,7 +16,7 @@ body {
     max-width: 480px; /* safe upper bound for large screens */
     height: auto; /* adjust to content */
     margin: auto;
-    padding: 20px;
+    padding: 16px;
     border-radius: 20px;
     box-sizing: border-box;
     /* box-shadow: 0 15px 35px rgba(185, 163, 163, 1); */

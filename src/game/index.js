@@ -10,22 +10,20 @@ import { bg, height, width } from "./consts";
 const config = {
     type: Phaser.AUTO,
     backgroundColor: bg,
-    scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: width,
-        height: height,
-    },
+    width,
+    height,
+    // scale: {
+    //     mode: Phaser.Scale.FIT,
+    //     autoCenter: Phaser.Scale.CENTER_BOTH,
+    //     width: width,
+    //     height: height,
+    // },
     physics: {
         default: "arcade",
+        debug: false,
         arcade: {
-            gravity: { x: 0, y: 0 },
-            debug: false,
+            gravity: { y: 200 },
         },
-    },
-    render: {
-        pixelArt: false, // smooth scaling
-        antialias: true, // prevent blurry text edges
     },
     scene: [Boot, Preload, GameEngine],
 };
